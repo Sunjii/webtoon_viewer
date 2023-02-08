@@ -23,6 +23,44 @@ class HomeScreen extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            const UserAccountsDrawerHeader(
+              accountName: Text('Nickname'),
+              accountEmail: Text('tester@email.com'),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                // TODO : set profile image
+                backgroundImage: AssetImage('asserts/images/1.jpg'),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.home,
+              ),
+              title: const Text('Home'),
+              onTap: () => {print('home')},
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.favorite,
+              ),
+              title: const Text('Favorites'),
+              onTap: () => {print('favorites')},
+            )
+          ],
+        ),
       ),
       body: FutureBuilder(
         future: webtoons,
@@ -33,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                Expanded(child: makeList(futureResult))
+                Expanded(child: makeList(futureResult)),
               ],
             );
           } else {
