@@ -27,16 +27,13 @@ class HomeScreen extends StatelessWidget {
         future: webtoons,
         builder: (context, futureResult) {
           if (futureResult.hasData) {
-            return ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: futureResult.data!.length,
-              itemBuilder: (context, index) {
-                var webtoon = futureResult.data![index];
-                return Text(webtoon.title);
-              },
-              separatorBuilder: (context, index) => const SizedBox(
-                width: 20,
-              ),
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Expanded(child: makeList(futureResult))
+              ],
             );
           } else {
             return const Center(
@@ -44,6 +41,47 @@ class HomeScreen extends StatelessWidget {
             );
           }
         },
+      ),
+    );
+  }
+
+  ListView makeList(AsyncSnapshot<List<WebtoonModel>> futureResult) {
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      itemCount: futureResult.data!.length,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      itemBuilder: (context, index) {
+        var webtoon = futureResult.data![index];
+        return Column(
+          children: [
+            Container(
+              width: 250,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 15,
+                      offset: const Offset(10, 10),
+                      color: Colors.black.withOpacity(0.3),
+                    ),
+                  ]),
+              child: Image.network(webtoon.thumb),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              webtoon.title,
+              style: const TextStyle(
+                fontSize: 22,
+              ),
+            ),
+          ],
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(
+        width: 40,
       ),
     );
   }
