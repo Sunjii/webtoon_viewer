@@ -108,7 +108,7 @@ class _FavDetailScreenState extends State<FavDetailScreen> {
                             BoxShadow(
                               blurRadius: 50,
                               offset: const Offset(1, 1),
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.blueAccent.withOpacity(0.3),
                             ),
                           ]),
                       child: Image.network(widget.thumb),

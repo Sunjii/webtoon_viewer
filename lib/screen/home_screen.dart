@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
         foregroundColor: Colors.green,
         elevation: 2,
         title: const Text(
-          "오늘의 Map",
+          "오늘의 웹툰",
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w400,
@@ -35,12 +35,14 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             const UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.green,
+              ),
               accountName: Text('Nickname'),
               accountEmail: Text('tester@email.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
-                // TODO : set profile image
-                // backgroundImage: AssetImage('asserts/images/1.jpg'),
+                backgroundImage: AssetImage('1.jpg'),
               ),
             ),
             const SizedBox(
@@ -51,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                 Icons.home,
               ),
               title: const Text('Home'),
-              onTap: () => {print('home!')},
+              onTap: () => {},
             ),
             ListTile(
               leading: const Icon(
