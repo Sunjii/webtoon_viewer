@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/models/webtoon_episode_model.dart';
 import 'package:toonflix/models/webtoon_model.dart';
@@ -31,39 +32,27 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final webtoon = json.decode(response.body);
-      return WebtoonDetailModel.fromJson(webtoon);
+      return WebtoonDetailModel.fromJson(webtoon, "42");
     }
     throw Error();
   }
 
-  static Future<List<WebtoonModel>> getToonByIds(List<String> ids) async {
-    List<WebtoonModel> webtoonInstances = [];
+  static Future<List<WebtoonDetailModel>> getFavoritToons() async {
+    List<WebtoonDetailModel> webtoons = [];
+    late SharedPreferences prefs;
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
 
-    for (var id in ids) {
+    for (var id in likedToons!) {
       var url = Uri.parse('$baseUrl/$id');
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        final WebtoonModel webtoon = jsonDecode(response.body);
-        print(webtoon);
+        var webtoon = json.decode(response.body);
+        webtoons.add(WebtoonDetailModel.fromJson(webtoon, id));
       }
     }
 
-    return webtoonInstances;
-
-    // List<WebtoonModel> webtoons = [];
-
-    // for (var id in ids) {
-    //   final url = Uri.parse('$baseUrl/$id');
-    //   print(url);
-    //   final response = await http.get(url);
-    //   if (response.statusCode == 200) {
-    //     final webtoon = json.decode(response.body);
-    //     print(webtoon);
-    //     webtoons.add(webtoon);
-    //     print(webtoons);
-    //   }
-    // }
-    // return webtoons;
+    return webtoons;
   }
 
   static Future<List<WebtoonEpisodeModel>> getLatestEpisodeById(
