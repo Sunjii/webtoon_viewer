@@ -15,6 +15,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   late SharedPreferences prefs;
   late List<String> likedToonIds;
 
+  late int screenSize;
+
   late Future<List<WebtoonDetailModel>> webtoons;
 
   Future initPrefs() async {
@@ -50,8 +52,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
       ),
       body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: (MediaQuery.of(context).size.width ~/ 250).toInt(),
           mainAxisSpacing: 40,
           crossAxisSpacing: 15,
         ),
