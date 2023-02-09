@@ -40,6 +40,13 @@ class Episode extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  episode.thumb,
+                  scale: 2.5,
+                ),
+              ),
               Flexible(
                 child: Text(
                   episode.title,
