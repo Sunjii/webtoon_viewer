@@ -14,6 +14,7 @@ class FavoriteScreen extends StatefulWidget {
 class _FavoriteScreenState extends State<FavoriteScreen> {
   late SharedPreferences prefs;
   late List<String> likedToonIds;
+  var isLoading = true;
 
   late int screenSize;
 
@@ -25,6 +26,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     if (likedToons != null) {
       setState(() {
         likedToonIds = likedToons;
+        isLoading = false;
       });
     }
   }
@@ -57,8 +59,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           mainAxisSpacing: 40,
           crossAxisSpacing: 15,
         ),
-        itemCount: likedToonIds.length,
+        itemCount: isLoading ? 1 : likedToonIds.length,
         itemBuilder: (context, index) {
+          if (isLoading) {
+            return const Center(
+              child: Text("You don't like anything!"),
+            );
+          }
           return FutureBuilder(
             future: webtoons,
             builder: (context, snapshot) {
