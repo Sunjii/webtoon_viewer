@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/models/webtoon_episode_model.dart';
 import 'package:toonflix/models/webtoon_model.dart';
@@ -31,9 +32,27 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final webtoon = json.decode(response.body);
-      return WebtoonDetailModel.fromJson(webtoon);
+      return WebtoonDetailModel.fromJson(webtoon, "42");
     }
     throw Error();
+  }
+
+  static Future<List<WebtoonDetailModel>> getFavoritToons() async {
+    List<WebtoonDetailModel> webtoons = [];
+    late SharedPreferences prefs;
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
+
+    for (var id in likedToons!) {
+      var url = Uri.parse('$baseUrl/$id');
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var webtoon = json.decode(response.body);
+        webtoons.add(WebtoonDetailModel.fromJson(webtoon, id));
+      }
+    }
+
+    return webtoons;
   }
 
   static Future<List<WebtoonEpisodeModel>> getLatestEpisodeById(
