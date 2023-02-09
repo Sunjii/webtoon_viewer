@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/service/api_service.dart';
-import 'package:toonflix/widgets/webtoon_widget.dart';
+import 'package:toonflix/widgets/fav_webtoon_widget.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -62,7 +62,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var webtoon = snapshot.data![index];
-                return Webtoon(
+                return FavWebtoon(
                   title: webtoon.title,
                   thumb: webtoon.thumb,
                   id: webtoon.id,
