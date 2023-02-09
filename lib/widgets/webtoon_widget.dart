@@ -39,7 +39,7 @@ class Webtoon extends StatelessWidget {
                       color: Colors.black.withOpacity(0.3),
                     ),
                   ]),
-              // child: Image.network(thumb),
+              child: Image.network(thumb),
             ),
           ),
           const SizedBox(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toonflix/models/webtoon_model.dart';
+import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/service/api_service.dart';
+import 'package:toonflix/widgets/webtoon_widget.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -14,7 +15,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   late SharedPreferences prefs;
   late List<String> likedToonIds;
 
-  late Future<List<WebtoonModel>> webtoons;
+  late Future<List<WebtoonDetailModel>> webtoons;
 
   Future initPrefs() async {
     prefs = await SharedPreferences.getInstance();
@@ -24,15 +25,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         likedToonIds = likedToons;
       });
     }
-    print('Liked Toons id : $likedToonIds');
-
-    webtoons = ApiService.getToonByIds(likedToonIds);
   }
 
   @override
   void initState() {
     super.initState();
     initPrefs();
+    webtoons = ApiService.getFavoritToons();
   }
 
   @override
@@ -52,23 +51,21 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+          crossAxisCount: 2,
           mainAxisSpacing: 40,
           crossAxisSpacing: 15,
         ),
-        itemCount: 1,
+        itemCount: likedToonIds.length,
         itemBuilder: (context, index) {
           return FutureBuilder(
             future: webtoons,
             builder: (context, snapshot) {
-              print('helloA $snapshot');
               if (snapshot.hasData) {
-                print('yes');
-                var toon = snapshot.data![index];
-                print(toon.title);
-
-                return Column(
-                  children: const [],
+                var webtoon = snapshot.data![index];
+                return Webtoon(
+                  title: webtoon.title,
+                  thumb: webtoon.thumb,
+                  id: webtoon.id,
                 );
               } else {
                 return const Center(
