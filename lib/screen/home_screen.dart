@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon_model.dart';
+import 'package:toonflix/screen/favorite_screen.dart';
 import 'package:toonflix/service/api_service.dart';
 import 'package:toonflix/widgets/webtoon_widget.dart';
 
@@ -39,7 +40,7 @@ class HomeScreen extends StatelessWidget {
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 // TODO : set profile image
-                backgroundImage: AssetImage('asserts/images/1.jpg'),
+                // backgroundImage: AssetImage('asserts/images/1.jpg'),
               ),
             ),
             const SizedBox(
@@ -50,14 +51,21 @@ class HomeScreen extends StatelessWidget {
                 Icons.home,
               ),
               title: const Text('Home'),
-              onTap: () => {print('home')},
+              onTap: () => {print('home!')},
             ),
             ListTile(
               leading: const Icon(
                 Icons.favorite,
               ),
               title: const Text('Favorites'),
-              onTap: () => {print('favorites')},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoriteScreen(),
+                  ),
+                );
+              },
             )
           ],
         ),
